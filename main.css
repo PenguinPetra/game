@@ -1,0 +1,81 @@
+/* 基本スタイル */
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    overflow: hidden; background-color: #000;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+
+/* 背景画像 */
+.background {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('title.jpg') no-repeat center center;
+    background-size: cover; transition: opacity 0.5s ease; z-index: 1;
+}
+.bg-dimmed { opacity: 0.5; }
+
+/* コンテナ */
+.container {
+    position: relative; z-index: 2; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+}
+
+/* タイトル画面 */
+#title-screen {
+    text-align: center; cursor: pointer; width: 100%; height: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.game-title { margin-top: 55vh; margin-bottom: 30px; line-height: 1.2; }
+.title-small { display: block; font-size: 1.2rem; opacity: 0; animation: bang 0.5s ease-out forwards; }
+.title-large { display: block; font-size: 3.5rem; font-weight: bold; position: relative; margin-top: 2rem; }
+
+/* ふりがな */
+.title-large::before {
+    content: "しんけいすいじゃく"; position: absolute; top: -1.8rem; left: 0;
+    width: 100%; font-size: 0.8rem; font-weight: normal; letter-spacing: 0.3rem;
+    text-indent: 0.3rem; color: #eee; opacity: 0;
+    animation: charIn 0.4s ease-out forwards; animation-delay: 0.6s; text-align: center;
+}
+
+.char { display: inline-block; opacity: 0; transform: translateY(10px); animation: charIn 0.4s ease-out forwards; }
+.tap-to-start { font-size: 1.2rem; animation: flash 1.5s infinite; opacity: 0; }
+
+/* メニュー画面 */
+#menu-screen {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    gap: 25px; width: 100%; margin-top: 55vh; animation: fadeIn 0.8s ease forwards;
+}
+
+.btn {
+    background: rgba(255, 255, 255, 0.9); color: #333; border: none; padding: 15px;
+    width: 80%; max-width: 300px; border-radius: 30px; font-size: 1.1rem;
+    font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-align: center;
+}
+.btn-start { background: #ffcc00; font-size: 1.3rem; }
+.btn-rules { background: #5087c1; color: white; }
+
+/* モーダル（説明用要素） */
+.modal {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 80%; max-width: 400px; background: white; color: #333;
+    padding: 30px; border-radius: 15px; z-index: 100;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center;
+}
+
+#overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); z-index: 90;
+}
+
+.hidden { display: none !important; }
+
+.btn-close {
+    margin-top: 20px; padding: 10px 20px; border: none;
+    background: #333; color: white; border-radius: 5px; cursor: pointer;
+}
+
+/* アニメーション */
+@keyframes bang { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes charIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
