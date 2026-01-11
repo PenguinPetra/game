@@ -24,7 +24,7 @@
             position: relative; z-index: 2; width: 100%; height: 100%;
             display: flex; flex-direction: column;
             justify-content: flex-end; align-items: center;
-            padding-bottom: 30%; /* ①配置の高さ調整 */
+            padding-bottom: 45%; /* ①配置の高さ調整 */
             color: white;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
         }
@@ -33,7 +33,7 @@
         #title-screen {
             text-align: center; cursor: pointer; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: flex-end;
-            padding-bottom: 30%;
+            padding-bottom: 0%;
         }
 
         .game-title {
@@ -50,12 +50,31 @@
             animation: bang 0.5s ease-out forwards;
         }
 
+        /* ふりがなを追加 */
+        .title-large::before {
+            content: "しんけいすいじゃく";
+            position: absolute;
+            top: -1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem; /* 1行目の1.2remより小さく */
+            font-weight: normal;
+            font-family: "たぬえいカクポップタイ";
+            letter-spacing: 0.35rem; /* 漢字の幅に合わせる調整 */
+            color: #eee;
+            opacity: 0;
+            animation: charIn 0.4s ease-out forwards;
+            animation-delay: 0.6s;
+        }
+
         /* 2行目：神経衰弱（JavaScriptで中身を書き換えます） */
         .title-large {
             display: block;
             font-size: 3.5rem; /* メインタイトルを強調 */
             font-weight: bold;
-            font-family: "Hiragino Mincho ProN", serif; /* ここだけ明朝体にする例 */
+            font-family: "Dela Gothic One"; 
+            position: relative; 
+            margin-top: 1.5rem;  /* ふりがなのスペースを確保 */
         }
 
         /* 一文字ずつのアニメーション用設定 */
