@@ -22,9 +22,8 @@
         /* ゲーム画面全体のコンテナ */
         .container {
             position: relative; z-index: 2; width: 100%; height: 100%;
-            display: flex; flex-direction: column;
-            justify-content: flex-end; align-items: center;
-            padding-bottom: 45%; /* ①配置の高さ調整 */
+            display: flex;
+            flex-direction: column;
             color: white;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
         }
@@ -32,52 +31,55 @@
         /* タイトル画面全体 */
         #title-screen {
             text-align: center; cursor: pointer; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding-bottom: 0%;
+            display: flex; flex-direction: column; 
+            justify-content: center; /* 上下中央 */
+            align-items: center;     /* 左右中央 */
         }
 
         .game-title {
-            margin-bottom: 15px;
+            margin-bottom: 30px; /* スタート文字との間隔 */
             line-height: 1.2;
         }
 
         /* 1行目：小さく＆バン！と表示 */
         .title-small {
             display: block;
-            font-size: 1.2rem; /* サイズを小さく設定 */
+            font-size: 1.2rem;
             font-weight: normal;
             opacity: 0;
             animation: bang 0.5s ease-out forwards;
         }
 
-        /* ふりがなを追加 */
+        /* 2行目：神経衰弱 */
+        .title-large {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: bold;
+            font-family: "Dela Gothic One", sans-serif;
+            position: relative; 
+            margin-top: 2rem; /* ふりがなのスペースを確保 */
+        }
+
+        /* ふりがな設定　*/
         .title-large::before {
             content: "しんけいすいじゃく";
             position: absolute;
-            top: -1.2rem;
+            top: -1.5rem;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.8rem; /* 1行目の1.2remより小さく */
+            width: 100%; /* 幅を漢字に合わせる */
+            font-size: 0.8rem;
             font-weight: normal;
-            font-family: "たぬえいカクポップタイ";
-            letter-spacing: 0.35rem; /* 漢字の幅に合わせる調整 */
+            letter-spacing: 0.35rem;
+            text-indent: 0.35rem; /* letter-spacingによる右ズレを左余白で相殺 */
             color: #eee;
             opacity: 0;
             animation: charIn 0.4s ease-out forwards;
             animation-delay: 0.6s;
+            text-align: center;
         }
 
-        /* 2行目：神経衰弱（JavaScriptで中身を書き換えます） */
-        .title-large {
-            display: block;
-            font-size: 3.5rem; /* メインタイトルを強調 */
-            font-weight: bold;
-            font-family: "Dela Gothic One"; 
-            position: relative; 
-            margin-top: 1.5rem;  /* ふりがなのスペースを確保 */
-        }
-
-        /* 一文字ずつのアニメーション用設定 */
+        /* 一文字ずつの演出用 */
         .char {
             display: inline-block;
             opacity: 0;
@@ -85,47 +87,42 @@
             animation: charIn 0.4s ease-out forwards;
         }
 
-        /* クリックしてスタート（少し遅れて表示） */
+        /* クリックしてスタート */
         .tap-to-start {
             font-size: 1.2rem;
             animation: flash 1.5s infinite;
-            opacity: 0; /* 最初は隠す */
+            opacity: 0;
         }
 
         /* メニュー画面 */
         #menu-screen {
-            display: none; flex-direction: column; gap: 20px;
-            width: 80%; max-width: 300px;
+            display: none; 
+            flex-direction: column; 
+            justify-content: center; /* 上下中央 */
+            align-items: center;     /* 左右中央 */
+            gap: 25px;
+            width: 100%;
+            height: 100%; /* コンテナいっぱいに広げて中央配置を有効に */
             animation: fadeIn 0.8s ease forwards;
         }
 
         .btn {
             background: rgba(255, 255, 255, 0.9);
             color: #333; border: none; padding: 15px;
+            width: 80%; max-width: 300px; /* ボタンの横幅を固定 */
             border-radius: 30px; font-size: 1.1rem;
             font-weight: bold; cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            text-align: center; text-decoration: none;
+            text-align: center;
         }
         .btn-start { background: #ffcc00; font-size: 1.3rem; }
         .btn-rules { background: #5087c1; color: white; }
 
         /* アニメーション定義 */
-        @keyframes bang {
-            0% { opacity: 0; transform: scale(0.5); }
-            70% { transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes charIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes flash {
-            0%, 100% { opacity: 1; } 50% { opacity: 0; }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes bang { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes charIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .bg-dimmed { opacity: 0.5; }
     </style>
 </head>
@@ -150,26 +147,18 @@
     </div>
 
     <script>
-        // ページ読み込み時の演出
         window.onload = function() {
             const titleElement = document.getElementById('main-title');
             const text = titleElement.innerText;
-            titleElement.innerText = ''; // 一旦空にする
-
-            // 「神経衰弱」を一文字ずつ<span>に分割してアニメーション設定
+            titleElement.innerText = ''; 
             text.split('').forEach((char, index) => {
                 const span = document.createElement('span');
                 span.innerText = char;
                 span.className = 'char';
-                // 1行目の表示(0.5s)が終わった後から、0.2秒間隔で文字を出す
                 span.style.animationDelay = (0.6 + (index * 0.2)) + 's';
                 titleElement.appendChild(span);
             });
-
-            // 全ての文字が出た頃に「クリックしてスタート」を表示
-            setTimeout(() => {
-                document.getElementById('start-msg').style.opacity = '1';
-            }, 1800);
+            setTimeout(() => { document.getElementById('start-msg').style.opacity = '1'; }, 1800);
         };
 
         function showMenu() {
@@ -179,7 +168,7 @@
         }
 
         function startGame() { alert("ゲームを開始します！"); }
-        function showRules() { alert("ルール：QRを読み取ってペアを探せ！"); }
+        function showRules() { alert("ルール：QRを読み取ってペアを探せ!"); }
         function showSettings() { alert("設定画面を開きます。"); }
     </script>
 </body>
