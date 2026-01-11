@@ -26,22 +26,24 @@
             flex-direction: column;
             color: white;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            /* 配置調整：上部に余白を作ることで全体を中央より下へ */
+            padding-top: 15vh; 
+            box-sizing: border-box;
         }
 
         /* タイトル画面全体 */
         #title-screen {
             text-align: center; cursor: pointer; width: 100%; height: 100%;
             display: flex; flex-direction: column; 
-            justify-content: center; /* 上下中央 */
-            align-items: center;     /* 左右中央 */
+            justify-content: center; /* コンテナ内の中央（実質中央下寄り） */
+            align-items: center;
         }
 
         .game-title {
-            margin-bottom: 30px; /* スタート文字との間隔 */
+            margin-bottom: 30px;
             line-height: 1.2;
         }
 
-        /* 1行目：小さく＆バン！と表示 */
         .title-small {
             display: block;
             font-size: 1.2rem;
@@ -57,29 +59,27 @@
             font-weight: bold;
             font-family: "Dela Gothic One", sans-serif;
             position: relative; 
-            margin-top: 2rem; /* ふりがなのスペースを確保 */
+            margin-top: 2rem; 
         }
 
-        /* ふりがな設定　*/
+        /* ①ふりがな設定の修正（中央揃えを確実に） */
         .title-large::before {
             content: "しんけいすいじゃく";
             position: absolute;
-            top: -1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%; /* 幅を漢字に合わせる */
+            top: -1.8rem;
+            left: 0;
+            width: 100%; /* 親要素(神経衰弱)の幅いっぱいに広げる */
             font-size: 0.8rem;
             font-weight: normal;
-            letter-spacing: 0.35rem;
-            text-indent: 0.35rem; /* letter-spacingによる右ズレを左余白で相殺 */
+            letter-spacing: 0.3rem;
+            text-indent: 0.3rem; /* 文字間隔の末尾ズレを相殺 */
             color: #eee;
             opacity: 0;
             animation: charIn 0.4s ease-out forwards;
             animation-delay: 0.6s;
-            text-align: center;
+            text-align: center; /* 文字を中央寄せ */
         }
 
-        /* 一文字ずつの演出用 */
         .char {
             display: inline-block;
             opacity: 0;
@@ -87,7 +87,6 @@
             animation: charIn 0.4s ease-out forwards;
         }
 
-        /* クリックしてスタート */
         .tap-to-start {
             font-size: 1.2rem;
             animation: flash 1.5s infinite;
@@ -98,18 +97,18 @@
         #menu-screen {
             display: none; 
             flex-direction: column; 
-            justify-content: center; /* 上下中央 */
-            align-items: center;     /* 左右中央 */
+            justify-content: center; 
+            align-items: center;
             gap: 25px;
             width: 100%;
-            height: 100%; /* コンテナいっぱいに広げて中央配置を有効に */
+            height: 100%; 
             animation: fadeIn 0.8s ease forwards;
         }
 
         .btn {
             background: rgba(255, 255, 255, 0.9);
             color: #333; border: none; padding: 15px;
-            width: 80%; max-width: 300px; /* ボタンの横幅を固定 */
+            width: 80%; max-width: 300px;
             border-radius: 30px; font-size: 1.1rem;
             font-weight: bold; cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -118,7 +117,6 @@
         .btn-start { background: #ffcc00; font-size: 1.3rem; }
         .btn-rules { background: #5087c1; color: white; }
 
-        /* アニメーション定義 */
         @keyframes bang { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
         @keyframes charIn { to { opacity: 1; transform: translateY(0); } }
         @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
