@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スマホゲームタイトル</title>
+    <title>体を動かして読み取れ！神経衰弱</title>
     <style>
         /* 基本スタイル */
         body, html {
@@ -39,7 +39,7 @@
             flex-direction: column;
             justify-content: flex-end; /* 中央より下へ */
             align-items: center;
-            padding-bottom: 20%; /* 下からの余白 */
+            padding-bottom: 40%; /* 下からの余白 */
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
@@ -96,6 +96,11 @@
             font-size: 1.3rem;
         }
 
+        .btn-rules {
+            background: #5087c1;
+            color: black;
+        }
+
         /* アニメーション */
         @keyframes flash {
             0%, 100% { opacity: 1; }
@@ -119,13 +124,13 @@
 
     <div class="container">
         <div id="title-screen" onclick="showMenu()">
-            <h1 class="game-title">GAME TITLE</h1>
-            <p class="tap-to-start">CLICK TO START</p>
+            <h1 class="game-title">体を動かして読み取れ！<br/>神経衰弱</h1>
+            <p class="tap-to-start">クリックしてスタート</p>
         </div>
 
         <div id="menu-screen">
             <button class="btn btn-start" onclick="startGame()">ゲーム開始</button>
-            <button class="btn" onclick="showRules()">ルール説明</button>
+            <button class="btn btn-rules" onclick="showRules()">ルール説明</button>
             <button class="btn" onclick="showSettings()">設定</button>
         </div>
     </div>
