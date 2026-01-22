@@ -4,125 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>体を動かして読み取れ！神経衰弱</title>
-    <style>
-        /* 基本スタイル */
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            overflow: hidden; background-color: #000;
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-        }
-
-        /* 背景画像の設定 */
-        .background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('title.jpg') no-repeat center center;
-            background-size: cover; transition: opacity 0.5s ease; z-index: 1;
-        }
-
-        /* ゲーム画面全体のコンテナ */
-        .container {
-            position: relative; z-index: 2; width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-        }
-
-        /* タイトル画面全体 */
-        #title-screen {
-            text-align: center; cursor: pointer; width: 100%; height: 100%;
-            display: flex; flex-direction: column; 
-            justify-content: center; /* コンテナ内の中央（実質中央下寄り） */
-            align-items: center;
-        }
-
-        .game-title {
-            margin-top: 55vh;
-            margin-bottom: 30px;
-            line-height: 1.2;
-            text-align: center;
-        }
-
-        .title-small {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: normal;
-            opacity: 0;
-            animation: bang 0.5s ease-out forwards;
-        }
-
-        /* 2行目：神経衰弱 */
-        .title-large {
-            display: block;
-            font-size: 3.5rem;
-            font-weight: bold;
-            font-family: "Dela Gothic One", sans-serif;
-            position: relative; 
-            margin-top: 2rem; 
-        }
-
-        /* ①ふりがな設定の修正（中央揃えを確実に） */
-        .title-large::before {
-            content: "しんけいすいじゃく";
-            position: absolute;
-            top: -1.8rem;
-            left: 0;
-            width: 100%; /* 親要素(神経衰弱)の幅いっぱいに広げる */
-            font-size: 0.8rem;
-            font-weight: normal;
-            letter-spacing: 0.3rem;
-            text-indent: 0.3rem; /* 文字間隔の末尾ズレを相殺 */
-            color: #eee;
-            opacity: 0;
-            animation: charIn 0.4s ease-out forwards;
-            animation-delay: 0.6s;
-            text-align: center; /* 文字を中央寄せ */
-        }
-
-        .char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: charIn 0.4s ease-out forwards;
-        }
-
-        .tap-to-start {
-            font-size: 1.2rem;
-            animation: flash 1.5s infinite;
-            opacity: 0;
-        }
-
-        /* メニュー画面 */
-        #menu-screen {
-            display: none; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
-            gap: 25px;
-            width: 100%;
-            margin-top: 55vh;
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        .btn {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333; border: none; padding: 15px;
-            width: 80%; max-width: 300px;
-            border-radius: 30px; font-size: 1.1rem;
-            font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-        .btn-start { background: #ffcc00; font-size: 1.3rem; }
-        .btn-rules { background: #5087c1; color: white; }
-
-        @keyframes bang { 0% { opacity: 0; transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes charIn { to { opacity: 1; transform: translateY(0); } }
-        @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .bg-dimmed { opacity: 0.5; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -130,44 +12,31 @@
 
     <div class="container">
         <div id="title-screen" onclick="showMenu()">
-            <h1 class="game-title">
+            <div class="title-area">
                 <span class="title-small">体を動かして読み取れ！</span>
-                <span class="title-large" id="main-title">神経衰弱</span>
-            </h1>
-            <p class="tap-to-start" id="start-msg">クリックしてスタート</p>
+                <span class="title-ruby">しんけいすいじゃく</span>
+                <h1 class="title-large" id="main-title">神経衰弱</h1>
+                <p class="tap-to-start" id="start-msg">クリックしてスタート</p>
+            </div>
         </div>
 
-        <div id="menu-screen">
-            <button class="btn btn-start" onclick="startGame()">ゲーム開始</button>
-            <button class="btn btn-rules" onclick="showRules()">ルール説明</button>
-            <button class="btn" onclick="showSettings()">設定</button>
+        <div id="menu-screen" class="hidden">
+            <div class="menu-buttons">
+                <button class="btn btn-start" onclick="openModal('start')">ゲーム開始</button>
+                <button class="btn btn-rules" onclick="openModal('rules')">ルール説明</button>
+                <button class="btn btn-settings" onclick="openModal('settings')">設定</button>
+            </div>
+        </div>
+
+        <div id="info-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="modal-title">タイトル</h2>
+                <div id="modal-body">コンテンツ</div>
+                <button class="btn-close" onclick="closeModal()">閉じる</button>
+            </div>
         </div>
     </div>
 
-    <script>
-        window.onload = function() {
-            const titleElement = document.getElementById('main-title');
-            const text = titleElement.innerText;
-            titleElement.innerText = ''; 
-            text.split('').forEach((char, index) => {
-                const span = document.createElement('span');
-                span.innerText = char;
-                span.className = 'char';
-                span.style.animationDelay = (0.6 + (index * 0.2)) + 's';
-                titleElement.appendChild(span);
-            });
-            setTimeout(() => { document.getElementById('start-msg').style.opacity = '1'; }, 1800);
-        };
-
-        function showMenu() {
-            document.getElementById('bg-img').classList.add('bg-dimmed');
-            document.getElementById('title-screen').style.display = 'none';
-            document.getElementById('menu-screen').style.display = 'flex';
-        }
-
-        function startGame() { alert("ゲームを開始します！"); }
-        function showRules() { alert("ルール：QRを読み取ってペアを探せ!"); }
-        function showSettings() { alert("設定画面を開きます。"); }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

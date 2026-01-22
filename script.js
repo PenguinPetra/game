@@ -1,42 +1,32 @@
-window.onload = function() {
-    // タイトルの1文字ずつアニメーションさせる処理
-    const titleElement = document.getElementById('main-title');
-    const text = titleElement.innerText;
-    titleElement.innerText = ''; 
-
-    text.split('').forEach((char, index) => {
-        const span = document.createElement('span');
-        span.innerText = char;
-        span.className = 'char';
-        // ふりがなの表示時間に合わせる
-        span.style.animationDelay = (0.6 + (index * 0.2)) + 's';
-        titleElement.appendChild(span);
-    });
-
-    // 「クリックしてスタート」を遅れて表示
-    setTimeout(() => { 
-        document.getElementById('start-msg').style.opacity = '1'; 
-    }, 1800);
-};
-
-// タイトル画面からメニューへ
+// メニュー画面への切り替え
 function showMenu() {
     document.getElementById('bg-img').classList.add('bg-dimmed');
-    document.getElementById('title-screen').style.display = 'none';
-    document.getElementById('menu-screen').style.display = 'flex';
+    document.getElementById('title-screen').classList.add('hidden');
+    document.getElementById('menu-screen').classList.remove('hidden');
 }
 
-// モーダルを表示する関数
-function showModal(panelId) {
-    document.getElementById('overlay').classList.remove('hidden');
-    document.getElementById(panelId).classList.remove('hidden');
+// モーダルを開く
+function openModal(type) {
+    const modal = document.getElementById('info-modal');
+    const title = document.getElementById('modal-title');
+    const body = document.getElementById('modal-body');
+
+    // 押されたボタンに応じてテキストを変更
+    if (type === 'start') {
+        title.innerText = "ゲーム開始";
+        body.innerHTML = "<p>カメラの準備をしてください。<br>神経衰弱をスタートします！</p>";
+    } else if (type === 'rules') {
+        title.innerText = "ルール説明";
+        body.innerHTML = "<p>1. 隠されたQRコードを探す<br>2. スマホで読み取る<br>3. 同じカードを揃える！</p>";
+    } else if (type === 'settings') {
+        title.innerText = "設定";
+        body.innerHTML = "<p>BGM: ON<br>難易度: ノーマル<br>（現在変更できません）</p>";
+    }
+
+    modal.classList.remove('hidden');
 }
 
-// 全てのモーダルを閉じる関数
-function closeAllModals() {
-    document.getElementById('overlay').classList.add('hidden');
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        modal.classList.add('hidden');
-    });
+// モーダルを閉じる
+function closeModal() {
+    document.getElementById('info-modal').classList.add('hidden');
 }
